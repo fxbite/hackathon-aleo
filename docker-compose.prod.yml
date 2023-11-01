@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  server:
+    image: server-heart-image
+  client:
+    image: client-heart-image
+  donation:
+    image: donation-heart-image
+  proxy:
+    image: proxy-heart-image

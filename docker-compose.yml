@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  server:
+    container_name: server-heart
+    restart: unless-stopped
+    image: server-heart-image
+    expose:
+      - 2567
+  client:
+    container_name: client-heart
+    restart: unless-stopped
+    expose:
+      - 3000
+    depends_on:
+      - server
+      - donation
+  donation:
+    container_name: donation-heart
+    restart: unless-stopped
+    expose:
+      - 7000
+  proxy:
+    container_name: proxy-heart
+    restart: unless-stopped
+    expose:
+      - 8000
+    ports:
+      - 6000:8000
+    depends_on:
+      - client
+      - server

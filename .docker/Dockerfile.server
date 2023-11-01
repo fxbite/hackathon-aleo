@@ -1,0 +1,17 @@
+# Builder
+FROM node:alpine as builder
+WORKDIR .
+COPY package.json webpack.config.js .
+COPY ../server ./server
+COPY ../types ./types
+RUN yarn && yarn build
+
+# Production
+FROM node:alpine 
+WORKDIR /app
+RUN npm i pm2 -g
+COPY --from=builder package.json .
+RUN yarn install --prod
+COPY --from=builder /build .
+EXPOSE 2567
+CMD ["pm2-runtime", "server.bundle.js"]
